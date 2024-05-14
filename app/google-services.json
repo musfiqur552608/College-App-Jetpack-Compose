@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "371389201535",
+    "project_id": "college-app-5cb3f",
+    "storage_bucket": "college-app-5cb3f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:371389201535:android:cbbe0ce7a2d3736c12534a",
+        "android_client_info": {
+          "package_name": "org.freedu.collegeapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCfkxdGTDufLnt651mFvGKdnh4p4bK2mMI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
