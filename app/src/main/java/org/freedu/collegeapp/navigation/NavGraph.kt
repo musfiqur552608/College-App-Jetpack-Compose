@@ -15,10 +15,11 @@ import org.freedu.collegeapp.screens.BottomNav
 import org.freedu.collegeapp.screens.Faculty
 import org.freedu.collegeapp.screens.Gallery
 import org.freedu.collegeapp.screens.Home
+import org.freedu.collegeapp.utils.Constant.isAdmin
 
 @Composable
 fun NavGraph(navController:NavHostController) {
-    val isAdmin = true
+
     NavHost(
         navController = navController,
         startDestination = if(isAdmin)Routes.AdminDashboard.route else Routes.BottomNav.route
@@ -42,7 +43,7 @@ fun NavGraph(navController:NavHostController) {
             AdminDashBoard(navController)
         }
         composable(route = Routes.ManageBanner.route){
-            ManageBanner()
+            ManageBanner(navController)
         }
         composable(route = Routes.ManageFaculty.route){
             ManageFaculty()

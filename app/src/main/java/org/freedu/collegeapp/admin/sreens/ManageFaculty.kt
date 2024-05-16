@@ -6,5 +6,5 @@ import androidx.compose.ui.Modifier
 
 @Composable
 fun ManageFaculty() {
-    Text(text = "Home")
+    Text(text = "Faculty")
 }

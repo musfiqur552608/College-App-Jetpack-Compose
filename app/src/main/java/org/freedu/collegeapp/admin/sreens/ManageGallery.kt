@@ -6,5 +6,5 @@ import androidx.compose.ui.Modifier
 
 @Composable
 fun ManageGallery() {
-    Text(text = "Home")
+    Text(text = "Gallery")
 }
