@@ -15,7 +15,7 @@ import org.freedu.collegeapp.screens.Home
 fun NavGraph(navController:NavHostController) {
     NavHost(
         navController = navController,
-        startDestination = Routes.Home.route
+        startDestination = Routes.BottomNav.route
     ){
         composable(route = Routes.BottomNav.route){
             BottomNav(navController)
