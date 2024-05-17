@@ -1,6 +1,7 @@
 package org.freedu.collegeapp.admin.sreens
 
 import android.net.Uri
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
@@ -25,7 +26,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -42,11 +45,16 @@ import coil.compose.rememberAsyncImagePainter
 import kotlinx.coroutines.launch
 import org.freedu.collegeapp.R
 import org.freedu.collegeapp.ui.theme.Purple40
+import org.freedu.collegeapp.viewmodels.BannerViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ManageBanner(navController: NavController) {
     val context = LocalContext.current
+    val bannerViewModel = BannerViewModel()
+    val isUploaded by bannerViewModel.isPosted.observeAsState(false)
+    val isDeleted by bannerViewModel.isDeleted.observeAsState(false)
+    val bannerList by bannerViewModel.bannerList.observeAsState(null)
     var imageUri by remember{
         mutableStateOf<Uri?>(null)
     }
@@ -55,6 +63,22 @@ fun ManageBanner(navController: NavController) {
         contract = ActivityResultContracts.GetContent()
     ){
         imageUri = it
+    }
+
+    LaunchedEffect(isUploaded) {
+
+        if(isUploaded){
+            Toast.makeText(context, "Banner Uploaded", Toast.LENGTH_SHORT).show()
+            imageUri = null
+        }
+        
+    }
+    LaunchedEffect(isDeleted) {
+
+        if(isDeleted){
+            Toast.makeText(context, "Banner Deleted", Toast.LENGTH_SHORT).show()
+        }
+
     }
     Scaffold (
         topBar = {
@@ -90,11 +114,14 @@ fun ManageBanner(navController: NavController) {
                     Image(
                         painter = rememberAsyncImagePainter(model = imageUri) ,
                         contentDescription = "banner_image",
-                        modifier = Modifier.height(220.dp)
+                        modifier = Modifier
+                            .height(220.dp)
                             .fillMaxWidth(),
                         contentScale = ContentScale.Crop)
                     Row {
-                        Button(onClick = { /*TODO*/ },
+                        Button(onClick = {
+                                         bannerViewModel.saveImage(imageUri!!)
+                        },
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .weight(1f)
