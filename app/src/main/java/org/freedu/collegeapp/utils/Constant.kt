@@ -7,6 +7,7 @@ object Constant {
     const val ABOUT_US = "about_us"
     const val FACULTY = "faculty"
     const val NOTES = "notes"
+    const val BANNER = "banner"
 
     const val isAdmin = true
 }
