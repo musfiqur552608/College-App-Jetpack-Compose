@@ -66,11 +66,13 @@ class BannerViewModel:ViewModel() {
             }
     }
 
-    fun deleteBanner(docId:String){
+    fun deleteBanner(bannerModel:BannerModel){
 
-        bannerRef.document(docId).delete()
+
+        bannerRef.document(bannerModel.docId!!).delete()
             .addOnSuccessListener {
                 _isDeleted.postValue(true)
+                Firebase.storage.getReferenceFromUrl(bannerModel.url!!).delete()
             }
             .addOnFailureListener {
                 _isDeleted.postValue(false)

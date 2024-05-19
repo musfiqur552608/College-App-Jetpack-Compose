@@ -10,10 +10,11 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.rounded.ArrowBack
-import androidx.compose.material.icons.rounded.Menu
 import androidx.compose.material3.Button
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -36,14 +37,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberAsyncImagePainter
-import kotlinx.coroutines.launch
-import org.freedu.collegeapp.R
+import org.freedu.collegeapp.itemview.BannerItemView
 import org.freedu.collegeapp.ui.theme.Purple40
 import org.freedu.collegeapp.viewmodels.BannerViewModel
 
@@ -55,32 +54,35 @@ fun ManageBanner(navController: NavController) {
     val isUploaded by bannerViewModel.isPosted.observeAsState(false)
     val isDeleted by bannerViewModel.isDeleted.observeAsState(false)
     val bannerList by bannerViewModel.bannerList.observeAsState(null)
-    var imageUri by remember{
+
+    bannerViewModel.getBanner()
+
+    var imageUri by remember {
         mutableStateOf<Uri?>(null)
     }
 
     val luncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
-    ){
+    ) {
         imageUri = it
     }
 
     LaunchedEffect(isUploaded) {
 
-        if(isUploaded){
+        if (isUploaded) {
             Toast.makeText(context, "Banner Uploaded", Toast.LENGTH_SHORT).show()
             imageUri = null
         }
-        
+
     }
     LaunchedEffect(isDeleted) {
 
-        if(isDeleted){
+        if (isDeleted) {
             Toast.makeText(context, "Banner Deleted", Toast.LENGTH_SHORT).show()
         }
 
     }
-    Scaffold (
+    Scaffold(
         topBar = {
             TopAppBar(title = {
                 Text(text = "Manage Banner", color = Color.White)
@@ -90,7 +92,11 @@ fun ManageBanner(navController: NavController) {
                     IconButton(onClick = {
                         navController.navigateUp()
                     }) {
-                        Icon(imageVector = Icons.Rounded.ArrowBack, contentDescription = null, tint = Color.White)
+                        Icon(
+                            imageVector = Icons.Rounded.ArrowBack,
+                            contentDescription = null,
+                            tint = Color.White
+                        )
                     }
                 }
 
@@ -105,37 +111,51 @@ fun ManageBanner(navController: NavController) {
                 Icon(imageVector = Icons.Filled.Add, contentDescription = null)
             }
         }
-    ){ padding->
+    ) { padding ->
 
         Column(modifier = Modifier.padding(padding)) {
-            if(imageUri != null){
+            if (imageUri != null) {
 
                 ElevatedCard(modifier = Modifier.padding(8.dp)) {
                     Image(
-                        painter = rememberAsyncImagePainter(model = imageUri) ,
+                        painter = rememberAsyncImagePainter(model = imageUri),
                         contentDescription = "banner_image",
                         modifier = Modifier
                             .height(220.dp)
                             .fillMaxWidth(),
-                        contentScale = ContentScale.Crop)
+                        contentScale = ContentScale.Crop
+                    )
                     Row {
-                        Button(onClick = {
-                                         bannerViewModel.saveImage(imageUri!!)
-                        },
+                        Button(
+                            onClick = {
+                                bannerViewModel.saveImage(imageUri!!)
+                            },
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .weight(1f)
-                                .padding(4.dp)) {
+                                .padding(4.dp)
+                        ) {
                             Text(text = "Add Image")
                         }
-                        OutlinedButton(onClick = { imageUri = null },
+                        OutlinedButton(
+                            onClick = { imageUri = null },
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .weight(1f)
-                                .padding(4.dp)) {
+                                .padding(4.dp)
+                        ) {
                             Text(text = "Cancel")
                         }
                     }
+                }
+
+
+            }
+            LazyColumn {
+                items(bannerList ?: emptyList()) {
+                    BannerItemView(bannerModel = it, delete = { docId ->
+                        bannerViewModel.deleteBanner(docId)
+                    })
                 }
             }
         }
