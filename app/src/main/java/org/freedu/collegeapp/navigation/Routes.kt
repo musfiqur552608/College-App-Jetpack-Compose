@@ -11,4 +11,5 @@ sealed class Routes(val route: String) {
     object ManageFaculty: Routes("manage_faculty")
     object ManageGallery: Routes("manage_gallery")
     object ManageCollegeInfo: Routes("college_info")
+    object ManageNotice: Routes("manage_notice")
 }

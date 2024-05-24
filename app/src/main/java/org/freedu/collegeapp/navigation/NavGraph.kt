@@ -10,6 +10,7 @@ import org.freedu.collegeapp.admin.sreens.ManageBanner
 import org.freedu.collegeapp.admin.sreens.ManageCollegeInfo
 import org.freedu.collegeapp.admin.sreens.ManageFaculty
 import org.freedu.collegeapp.admin.sreens.ManageGallery
+import org.freedu.collegeapp.admin.sreens.ManageNotice
 import org.freedu.collegeapp.screens.AboutUs
 import org.freedu.collegeapp.screens.BottomNav
 import org.freedu.collegeapp.screens.Faculty
@@ -53,6 +54,10 @@ fun NavGraph(navController:NavHostController) {
         }
         composable(route = Routes.ManageCollegeInfo.route){
             ManageCollegeInfo()
+        }
+
+        composable(route = Routes.ManageNotice.route){
+            ManageNotice(navController)
         }
     }
 }
