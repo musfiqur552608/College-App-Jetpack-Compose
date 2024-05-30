@@ -6,6 +6,7 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
@@ -20,8 +22,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedButton
@@ -65,6 +70,7 @@ fun ManageFaculty(navController: NavController) {
     val isUploaded by facultyViewModel.isPosted.observeAsState(false)
     val isDeleted by facultyViewModel.isDeleted.observeAsState(false)
     val categoryList by facultyViewModel.categoryList.observeAsState(null)
+    val option = arrayListOf<String>()
 
     facultyViewModel.getCategory()
 
@@ -72,6 +78,9 @@ fun ManageFaculty(navController: NavController) {
         mutableStateOf<Uri?>(null)
     }
     var isCategory by remember {
+        mutableStateOf(false)
+    }
+    var isExpanded by remember {
         mutableStateOf(false)
     }
     var isTeacher by remember {
@@ -290,6 +299,46 @@ fun ManageFaculty(navController: NavController) {
                                 .fillMaxWidth()
                                 .padding(4.dp)
                         )
+                        Box(modifier = Modifier.wrapContentSize(Alignment.TopStart)){
+                            OutlinedTextField(
+                                value = category, onValueChange = {
+                                    category = it
+                                },
+                                readOnly = true,
+                                placeholder = { Text(text = "Select your department...") },
+                                label = { Text(text = "Department Name")},
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(4.dp),
+                                trailingIcon = {
+                                    ExposedDropdownMenuDefaults.TrailingIcon(expanded = isExpanded)
+                                }
+                            )
+
+                            DropdownMenu(expanded = isExpanded, onDismissRequest = { isExpanded = false }) {
+                                if(categoryList!!.isNotEmpty() && categoryList != null){
+                                    option.clear()
+                                    for(data in categoryList!!){
+                                        option.add(data)
+                                    }
+                                }
+                                option.forEach {
+                                    DropdownMenuItem(text = { Text(text = it) }, onClick = {
+                                        category = it
+                                        isExpanded = false
+                                    },
+                                        modifier = Modifier.fillMaxWidth())
+                                }
+
+                            }
+                            Spacer(modifier = Modifier
+                                .matchParentSize()
+                                .padding(10.dp)
+                                .clickable {
+                                    isExpanded = !isExpanded
+                                }
+                            )
+                        }
 
                         Row {
                             Button(
@@ -300,7 +349,7 @@ fun ManageFaculty(navController: NavController) {
                                             "Please pick a image",
                                             Toast.LENGTH_SHORT
                                         ).show()
-                                    } else if (name == "" || email == "" || phone == "" || position == "") {
+                                    } else if (name == "" || email == "" || phone == "" || position == "" || category == "") {
                                         Toast.makeText(
                                             context,
                                             "Please fill all the fields",
