@@ -6,5 +6,6 @@ data class FacultyModel(
     val email:String?="",
     val phone:String?="",
     val position:String?="",
+    val catName:String?="",
     val docId:String?="",
 )

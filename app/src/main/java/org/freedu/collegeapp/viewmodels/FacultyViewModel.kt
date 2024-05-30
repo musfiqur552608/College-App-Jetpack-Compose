@@ -78,8 +78,8 @@ class FacultyViewModel:ViewModel() {
 
     }
 
-    fun getFaculty(){
-        facultyRef.get()
+    fun getFaculty(catName: String){
+        facultyRef.document(catName).collection("teacher").get()
             .addOnSuccessListener {
                 val list = mutableListOf<FacultyModel>()
                 for(doc in it){
@@ -102,7 +102,7 @@ class FacultyViewModel:ViewModel() {
     fun deleteFaculty(facultyModel:FacultyModel){
 
 
-        facultyRef.document(facultyModel.docId!!).delete()
+        facultyRef.document(facultyModel.catName!!).collection("teacher").document(facultyModel.docId!!).delete()
             .addOnSuccessListener {
                 _isDeleted.postValue(true)
                 Firebase.storage.getReferenceFromUrl(facultyModel.imageUrl!!).delete()

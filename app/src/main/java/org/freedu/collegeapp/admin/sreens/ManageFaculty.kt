@@ -59,6 +59,7 @@ import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberAsyncImagePainter
 import org.freedu.collegeapp.R
 import org.freedu.collegeapp.itemview.FacultyItemView
+import org.freedu.collegeapp.navigation.Routes
 import org.freedu.collegeapp.ui.theme.Purple40
 import org.freedu.collegeapp.viewmodels.FacultyViewModel
 
@@ -395,6 +396,9 @@ fun ManageFaculty(navController: NavController) {
                 items(categoryList ?: emptyList()) {
                     FacultyItemView(it, delete = { docId ->
                         facultyViewModel.deleteCategory(docId)
+                    }, onClick = {
+                        val routes = Routes.FacultyDetailScreen.route.replace("{catName}", it)
+                        navController.navigate(routes)
                     })
                 }
             }

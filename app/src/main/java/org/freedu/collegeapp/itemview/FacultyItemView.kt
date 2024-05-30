@@ -18,8 +18,10 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import org.freedu.collegeapp.R
 
 @Composable
-fun FacultyItemView(catName: String, delete: (catName: String) -> Unit) {
-    OutlinedCard(modifier = Modifier.padding(4.dp).fillMaxWidth()) {
+fun FacultyItemView(catName: String, delete: (catName: String) -> Unit, onClick:(catName: String) -> Unit) {
+    OutlinedCard(modifier = Modifier.padding(4.dp).fillMaxWidth().clickable {
+        onClick(catName)
+    }) {
         ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
             val (category, delete) = createRefs()
             Text(

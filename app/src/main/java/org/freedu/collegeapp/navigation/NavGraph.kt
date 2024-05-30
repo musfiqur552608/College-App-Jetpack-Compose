@@ -6,6 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import org.freedu.collegeapp.admin.sreens.AdminDashBoard
+import org.freedu.collegeapp.admin.sreens.FacultyDetailScreen
 import org.freedu.collegeapp.admin.sreens.ManageBanner
 import org.freedu.collegeapp.admin.sreens.ManageCollegeInfo
 import org.freedu.collegeapp.admin.sreens.ManageFaculty
@@ -58,6 +59,10 @@ fun NavGraph(navController:NavHostController) {
 
         composable(route = Routes.ManageNotice.route){
             ManageNotice(navController)
+        }
+        composable(route = Routes.FacultyDetailScreen.route){
+            val data = it.arguments!!.getString("catName")
+            FacultyDetailScreen(navController, data!!)
         }
     }
 }
