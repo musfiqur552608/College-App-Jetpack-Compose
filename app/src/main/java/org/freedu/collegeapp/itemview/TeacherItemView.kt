@@ -26,6 +26,7 @@ import coil.compose.rememberAsyncImagePainter
 import org.freedu.collegeapp.R
 import org.freedu.collegeapp.models.FacultyModel
 import org.freedu.collegeapp.ui.theme.SkyBlue
+import org.freedu.collegeapp.utils.Constant.isAdmin
 
 @Composable
 fun TeacherItemView(facultyModel: FacultyModel, delete: (facultyModel: FacultyModel) -> Unit) {
@@ -72,6 +73,7 @@ fun TeacherItemView(facultyModel: FacultyModel, delete: (facultyModel: FacultyMo
 
 
             }
+            if(isAdmin)
             Card(modifier = Modifier
                 .constrainAs(delete) {
                     top.linkTo(parent.top)

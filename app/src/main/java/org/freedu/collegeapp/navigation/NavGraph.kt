@@ -39,7 +39,7 @@ fun NavGraph(navController:NavHostController) {
             AboutUs()
         }
         composable(route = Routes.Faculty.route){
-            Faculty()
+            Faculty(navController)
         }
         composable(route = Routes.AdminDashboard.route){
             AdminDashBoard(navController)

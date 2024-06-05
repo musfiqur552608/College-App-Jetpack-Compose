@@ -45,6 +45,7 @@ import coil.compose.rememberAsyncImagePainter
 import org.freedu.collegeapp.itemview.BannerItemView
 import org.freedu.collegeapp.ui.theme.Purple40
 import org.freedu.collegeapp.viewmodels.BannerViewModel
+import org.freedu.collegeapp.widget.LoadingDialog
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -56,6 +57,18 @@ fun ManageBanner(navController: NavController) {
     val bannerList by bannerViewModel.bannerList.observeAsState(null)
 
     bannerViewModel.getBanner()
+
+    val showLoader = remember {
+        mutableStateOf(false)
+    }
+
+    if(showLoader.value){
+        LoadingDialog (
+            onDismissRequest = {
+                showLoader.value = false
+            }
+        )
+    }
 
     var imageUri by remember {
         mutableStateOf<Uri?>(null)
@@ -70,6 +83,7 @@ fun ManageBanner(navController: NavController) {
     LaunchedEffect(isUploaded) {
 
         if (isUploaded) {
+            showLoader.value = false
             Toast.makeText(context, "Banner Uploaded", Toast.LENGTH_SHORT).show()
             imageUri = null
         }
@@ -128,6 +142,7 @@ fun ManageBanner(navController: NavController) {
                     Row {
                         Button(
                             onClick = {
+                                showLoader.value = true
                                 bannerViewModel.saveImage(imageUri!!)
                             },
                             modifier = Modifier

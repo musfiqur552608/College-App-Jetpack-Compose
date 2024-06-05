@@ -21,6 +21,7 @@ import coil.compose.rememberAsyncImagePainter
 import org.freedu.collegeapp.R
 import org.freedu.collegeapp.models.NoticeModel
 import org.freedu.collegeapp.ui.theme.SkyBlue
+import org.freedu.collegeapp.utils.Constant.isAdmin
 
 @Composable
 fun NoticeItemView(noticeModel: NoticeModel, delete: (noticeModel: NoticeModel) -> Unit) {
@@ -50,20 +51,21 @@ fun NoticeItemView(noticeModel: NoticeModel, delete: (noticeModel: NoticeModel) 
                     contentScale = ContentScale.Crop
                 )
             }
-            Card(modifier = Modifier
-                .constrainAs(delete) {
-                    top.linkTo(parent.top)
-                    end.linkTo(parent.end)
+            if (isAdmin)
+                Card(modifier = Modifier
+                    .constrainAs(delete) {
+                        top.linkTo(parent.top)
+                        end.linkTo(parent.end)
+                    }
+                    .padding(4.dp)
+                    .clickable {
+                        delete(noticeModel)
+                    }) {
+                    Image(
+                        painter = painterResource(id = R.drawable.delete), contentDescription = "",
+                        modifier = Modifier.padding(8.dp)
+                    )
                 }
-                .padding(4.dp)
-                .clickable {
-                    delete(noticeModel)
-                }) {
-                Image(
-                    painter = painterResource(id = R.drawable.delete), contentDescription = "",
-                    modifier = Modifier.padding(8.dp)
-                )
-            }
         }
     }
 }

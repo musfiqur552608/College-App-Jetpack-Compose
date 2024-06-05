@@ -9,5 +9,5 @@ object Constant {
     const val NOTES = "notes"
     const val BANNER = "banner"
 
-    const val isAdmin = true
+    const val isAdmin = false
 }

@@ -131,7 +131,7 @@ fun BottomNav(navController: NavController) {
                         AboutUs()
                     }
                     composable(route = Routes.Faculty.route){
-                        Faculty()
+                        Faculty(navController)
                     }
                 }
 

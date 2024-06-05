@@ -11,17 +11,24 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import org.freedu.collegeapp.R
+import org.freedu.collegeapp.utils.Constant.isAdmin
 
 @Composable
-fun FacultyItemView(catName: String, delete: (catName: String) -> Unit, onClick:(catName: String) -> Unit) {
-    OutlinedCard(modifier = Modifier.padding(4.dp).fillMaxWidth().clickable {
-        onClick(catName)
-    }) {
+fun FacultyItemView(
+    catName: String,
+    delete: (catName: String) -> Unit,
+    onClick: (catName: String) -> Unit
+) {
+    OutlinedCard(modifier = Modifier
+        .padding(4.dp)
+        .fillMaxWidth()
+        .clickable {
+            onClick(catName)
+        }) {
         ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
             val (category, delete) = createRefs()
             Text(
@@ -37,20 +44,21 @@ fun FacultyItemView(catName: String, delete: (catName: String) -> Unit, onClick:
                 fontWeight = FontWeight.Bold,
                 fontSize = 16.sp,
             )
-            Card(modifier = Modifier
-                .constrainAs(delete) {
-                    top.linkTo(parent.top)
-                    end.linkTo(parent.end)
+            if (isAdmin)
+                Card(modifier = Modifier
+                    .constrainAs(delete) {
+                        top.linkTo(parent.top)
+                        end.linkTo(parent.end)
+                    }
+                    .padding(4.dp)
+                    .clickable {
+                        delete(catName)
+                    }) {
+                    Image(
+                        painter = painterResource(id = R.drawable.delete), contentDescription = "",
+                        modifier = Modifier.padding(8.dp)
+                    )
                 }
-                .padding(4.dp)
-                .clickable {
-                    delete(catName)
-                }) {
-                Image(
-                    painter = painterResource(id = R.drawable.delete), contentDescription = "",
-                    modifier = Modifier.padding(8.dp)
-                )
-            }
         }
     }
 }
