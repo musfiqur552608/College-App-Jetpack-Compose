@@ -1,8 +1,8 @@
 # 📱 College-App-Jetpack-Compose
 
 ![Android App](https://img.shields.io/badge/Platform-Android-green.svg)
-![License](https://img.shields.io/github/license/yourusername/your-repo-name.svg)
-![Build Status](https://img.shields.io/github/actions/workflow/status/yourusername/your-repo-name/CI.yml)
+![License](https://img.shields.io/github/license/musfiqur552608/College-App-Jetpack-Compose.svg)
+![Build Status](https://img.shields.io/github/actions/workflow/status/musfiqur552608/College-App-Jetpack-Compose/CI.yml)
 
 Welcome to the **My Android Mobile App** repository! This project is an [app description: e.g., innovative task management app, weather app, etc.].
 
